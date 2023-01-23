@@ -9,6 +9,8 @@ public class Loteria_Nadal {
     de numeros que juguen (del 0 fins al 99.999)
      */
     static final int NUMPREMIOS = 100000;
+    static int [] nums;
+    static int []numAleatoris;
     
     //Quantitat de diners per decim
     static final String PREMIOGORDO = "400.000€";
@@ -90,12 +92,36 @@ public class Loteria_Nadal {
 
         return premi;
     }
+    public static int darNumero(){
+        int numero=0;
+        for (int i = 1; i < NUMPREMIOS; i++) {
+        	nums[i] = i;
+    	}
+    	for (int i = 0; i < numAleatoris.length; i++) {
+        	numero = generarNumero();
+        	numAleatoris[i] = nums[numero];
+        	nums[numero] = -1;
 
+    	}
+    	for (int i = 0; i < numAleatoris.length; i++) {
+        	System.out.print(numAleatoris[i] + " ");
+    	}
+     return numero;
+    }
+    public static int generarNumero(){
+        Random ra = new Random();
+        int numero = ra.nextInt(15);
+    	if (nums[numero] == -1) {
+        	return generarNumero();
+    	} else {
+        	return nums[numero];
+    	}
+    }
     public static void simulacion() {
 
         //Generem numeros randoms i li assignem un premi en ordre
-        Random ra = new Random();
-        int numero = ra.nextInt(NUMPREMIOS);
+        
+        int numero = darNumero();
         for (int i = 1; i < NUMPREMIOS; i++) {
             numeros[i] = new boleto();
             if (i == PRIMERO) {
