@@ -9,9 +9,9 @@ public class Loteria_Nadal {
     de numeros que juguen (del 0 fins al 99.999)
      */
     static final int NUMPREMIOS = 100000;
-    static int [] nums;
-    static int []numAleatoris;
-    
+    static int[] nums;
+    static int[] numAleatoris;
+
     //Quantitat de diners per decim
     static final String PREMIOGORDO = "400.000€";
     static final String PREMIOSEGUNDO = "125.000€";
@@ -24,22 +24,20 @@ public class Loteria_Nadal {
     static final String TERCEROCONTIGUOS = "960€";
     static final String DOSCIFRAS = "100€";
     static final String ULTIMAGORDO = "20€";
-    
+
     //Els premis que toquen (primer premi = gordo),...
-    static final int PRIMERO=1;
-    static final int SEGUNDO=2;
-    static final int TERCERO=3;
-    static final int CUARTO=4;
-    static final int QUINTO=5;
-    static final int PRIMEROSPREMIOS=14;
-    static final int RESTOPREMIOS=1807;
-    
-    static final int MIL=1000;
-    static final int CIEN=100;
-    static final int DIEZ=10;
-    
-    
-    
+    static final int PRIMERO = 1;
+    static final int SEGUNDO = 2;
+    static final int TERCERO = 3;
+    static final int CUARTO = 4;
+    static final int QUINTO = 5;
+    static final int PRIMEROSPREMIOS = 14;
+    static final int RESTOPREMIOS = 1807;
+
+    static final int MIL = 1000;
+    static final int CIEN = 100;
+    static final int DIEZ = 10;
+
     /*Declarem les variables globals*/
     static boleto[] numeros = new boleto[NUMPREMIOS];
     static int NUMGORDO;
@@ -92,37 +90,39 @@ public class Loteria_Nadal {
 
         return premi;
     }
-    public static int darNumero(){
-        int numero=0;
-        for (int i = 1; i < NUMPREMIOS; i++) {
-        	nums[i] = i;
-    	}
-    	for (int i = 0; i < numAleatoris.length; i++) {
-        	numero = generarNumero();
-        	numAleatoris[i] = nums[numero];
-        	nums[numero] = -1;
 
-    	}
-    	for (int i = 0; i < numAleatoris.length; i++) {
-        	System.out.print(numAleatoris[i] + " ");
-    	}
-     return numero;
+    public static int darNumero() {
+        int numero = 0;
+
+        
+        
+            numero = generarNumero();
+            
+            
+            nums[numero] = -1;
+
+        
+
+        return numero;
     }
-    public static int generarNumero(){
+
+    public static int generarNumero() {
+
         Random ra = new Random();
-        int numero = ra.nextInt(15);
-    	if (nums[numero] == -1) {
-        	return generarNumero();
-    	} else {
-        	return nums[numero];
-    	}
+        int numero = -1;
+        do {
+            numero = ra.nextInt(NUMPREMIOS);
+        } while (nums[numero] == -1);
+
+        return nums[numero];
     }
+
     public static void simulacion() {
 
         //Generem numeros randoms i li assignem un premi en ordre
         
-        int numero = darNumero();
         for (int i = 1; i < NUMPREMIOS; i++) {
+            int numero = darNumero();
             numeros[i] = new boleto();
             if (i == PRIMERO) {
                 NUMGORDO = numero;
@@ -152,14 +152,54 @@ public class Loteria_Nadal {
                 numeros[i].premio = PREMIOPEDREA;
             } else {
                 numeros[i].numero = numero;
-                numeros[i].premio = "No te premi";
+                numeros[i].premio = calcularPremio(numero);
             }
 
         }
 
     }
 
+    public static String buscarPremio(boleto boletoIntroducido) {
+        String resultat = "";
+        for (int i = 1; i < NUMPREMIOS; i++) {
+            if (boletoIntroducido.numero == numeros[i].numero) {
+                resultat = numeros[i].premio;
+            }
+
+        }
+
+        return resultat;
+    }
+
+    static int Entero(String missatge) {
+        Scanner scan = new Scanner(System.in);
+        int result;
+
+        System.out.println(missatge);
+        while (!scan.hasNextInt()) {
+            System.out.println("Solo numeros enteros de 5 cifras: ");
+            scan.next();
+        }
+        result = scan.nextInt();
+        return result;
+    }
+
     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        nums = new int[NUMPREMIOS];
+        numAleatoris = new int[NUMPREMIOS];
+        for (int i = 0; i < NUMPREMIOS - 1; i++) {
+            nums[i] = i;
+        }
+        simulacion();
+        System.out.println("Sorteo acabado");
+        System.out.println(numeros[1].numero);
+        boleto boletoIntroducido;
+
+        boletoIntroducido = new boleto();
+        boletoIntroducido.numero = Entero("Introdueix el teu numero: ");
+        boletoIntroducido.premio = buscarPremio(boletoIntroducido);
+        System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio);
 
     }
 
