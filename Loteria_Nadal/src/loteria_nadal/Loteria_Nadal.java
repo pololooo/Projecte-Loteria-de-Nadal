@@ -206,6 +206,8 @@ public class Loteria_Nadal {
         boleto boletoIntroducido;
         String resposta = "n";
 
+        /**/
+        
         do {
             boletoIntroducido = new boleto();
 
