@@ -94,14 +94,9 @@ public class Loteria_Nadal {
     public static int darNumero() {
         int numero = 0;
 
-        
-        
-            numero = generarNumero();
-            
-            
-            nums[numero] = -1;
+        numero = generarNumero();
 
-        
+        nums[numero] = -1;
 
         return numero;
     }
@@ -120,7 +115,6 @@ public class Loteria_Nadal {
     public static void simulacion() {
 
         //Generem numeros randoms i li assignem un premi en ordre
-        
         for (int i = 1; i < NUMPREMIOS; i++) {
             int numero = darNumero();
             numeros[i] = new boleto();
@@ -185,7 +179,6 @@ public class Loteria_Nadal {
     }
 
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
         nums = new int[NUMPREMIOS];
         numAleatoris = new int[NUMPREMIOS];
         for (int i = 0; i < NUMPREMIOS - 1; i++) {
