@@ -180,7 +180,8 @@ public class Loteria_Nadal {
         return result;
     }
 
-    static int ComprobarTam(boleto boletoIntroducido) {
+    static void ComprobarTam(boleto boletoIntroducido) {
+
         String cadena = String.valueOf(boletoIntroducido.numero);
         int tam = cadena.length();
 
@@ -210,9 +211,9 @@ public class Loteria_Nadal {
 
             boletoIntroducido.numero = Entero("Introdueix el teu numero: ");
 
-            boletoIntroducido.premio = buscarPremio(boletoIntroducido);
+            ComprobarTam(boletoIntroducido);
 
-            ComprobarTam = boletoIntroducido.numero(cadena);
+            boletoIntroducido.premio = buscarPremio(boletoIntroducido);
 
             System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + "€");
 
