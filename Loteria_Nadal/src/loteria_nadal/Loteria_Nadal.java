@@ -30,7 +30,7 @@ public class Loteria_Nadal {
     static final int SEGUNDO = 2;
     static final int TERCERO = 3;
     static final int CUARTO = 4;
-    static final int QUINTO = 5;
+    static final int CUARTO2 = 5;
     static final int PRIMEROSPREMIOS = 14;
     static final int RESTOPREMIOS = 1807;
 
@@ -40,11 +40,11 @@ public class Loteria_Nadal {
 
     /*Declarem les variables globals*/
     static boleto[] numeros = new boleto[NUMPREMIOS];
-    static int NUMGORDO;
-    static int NUMSEGUNDO;
-    static int NUMTERCERO;
-    static int NUMCUARTO1;
-    static int NUMCUARTO2;
+    static int numGordo;
+    static int numSegundo;
+    static int numTercero;
+    static int numCuarto1;
+    static int numCuarto2;
 
     /*Cada boleto, té un numero de 5 xifres i un premi assignat (o no)*/
     public static class boleto {
@@ -58,31 +58,34 @@ public class Loteria_Nadal {
     es calculen les variacions */
     public static int calcularPremio(int numero) {
         int premi = 0;
-        if (numero == NUMGORDO + 1 || numero == NUMGORDO - 1) {
+        //Comprobem si es contigu al gros, al segon o al tercer
+        if (numero == numGordo + 1 || numero == numGordo - 1) {
             premi = GORDOCONTIGUOS;
-        } else if (numero == NUMSEGUNDO + 1 || numero == NUMSEGUNDO - 1) {
+        } else if (numero == numSegundo + 1 || numero == numSegundo - 1) {
             premi = SEGUNDOCONTIGUOS;
-        } else if (numero == NUMTERCERO + 1 || numero == NUMTERCERO - 1) {
+        } else if (numero == numTercero + 1 || numero == numTercero - 1) {
             premi = TERCEROCONTIGUOS;
-        } else if (numero % DIEZ == NUMGORDO % DIEZ) {
-            if (numero % CIEN == NUMGORDO % CIEN) {
+        } //comprobem si coincideixen les ultimes xifres del gros i del segon
+        else if (numero % DIEZ == numGordo % DIEZ) {
+            if (numero % CIEN == numGordo % CIEN) {
                 premi = DOSCIFRAS;
             } else {
                 premi = ULTIMAGORDO;
             }
-        } else if (numero % CIEN == NUMSEGUNDO % CIEN) {
+        } else if (numero % CIEN == numSegundo % CIEN) {
             premi = DOSCIFRAS;
-        } else if (numero % CIEN == NUMTERCERO % CIEN) {
+        } else if (numero % CIEN == numTercero % CIEN) {
             premi = DOSCIFRAS;
-        } else if ((numero / MIL) % CIEN == (NUMGORDO / MIL) % CIEN) {
+        } //comprobem si coincideixen les primeres xifres del gros, segon, tercer i cuart
+        else if ((numero / MIL) % CIEN == (numGordo / MIL) % CIEN) {
             premi = DOSCIFRAS;
-        } else if ((numero / MIL) % CIEN == (NUMSEGUNDO / MIL) % CIEN) {
+        } else if ((numero / MIL) % CIEN == (numSegundo / MIL) % CIEN) {
             premi = DOSCIFRAS;
-        } else if ((numero / MIL) % CIEN == (NUMTERCERO / MIL) % CIEN) {
+        } else if ((numero / MIL) % CIEN == (numTercero / MIL) % CIEN) {
             premi = DOSCIFRAS;
-        } else if ((numero / MIL) % CIEN == (NUMCUARTO1 / MIL) % CIEN) {
+        } else if ((numero / MIL) % CIEN == (numCuarto1 / MIL) % CIEN) {
             premi = DOSCIFRAS;
-        } else if ((numero / MIL) % CIEN == (NUMCUARTO2 / MIL) % CIEN) {
+        } else if ((numero / MIL) % CIEN == (numCuarto2 / MIL) % CIEN) {
             premi = DOSCIFRAS;
         } else {
             premi = 0;
@@ -91,6 +94,7 @@ public class Loteria_Nadal {
         return premi;
     }
 
+    //funcio per tornar el numero aleatori
     public static int darNumero() {
         int numero = 0;
 
@@ -101,8 +105,10 @@ public class Loteria_Nadal {
         return numero;
     }
 
+    //funcio per generar el numero automatic
     public static int generarNumero() {
-
+        /*Aquesta funcio genera un numero aleatori, selecciona aquesta posicio
+        de l'array amb numeros del 0 al 99999 i el descarta per al seguent numero*/
         Random ra = new Random();
         int numero = -1;
         do {
@@ -119,23 +125,23 @@ public class Loteria_Nadal {
             int numero = darNumero();
             numeros[i] = new boleto();
             if (i == PRIMERO) {
-                NUMGORDO = numero;
-                numeros[i].numero = NUMGORDO;
+                numGordo = numero;
+                numeros[i].numero = numGordo;
                 numeros[i].premio = PREMIOGORDO;
             } else if (i == SEGUNDO) {
-                NUMSEGUNDO = numero;
+                numSegundo = numero;
                 numeros[i].numero = numero;
                 numeros[i].premio = PREMIOSEGUNDO;
             } else if (i == TERCERO) {
-                NUMTERCERO = numero;
+                numTercero = numero;
                 numeros[i].numero = numero;
                 numeros[i].premio = PREMIOTERCERO;
             } else if (i == CUARTO) {
-                NUMCUARTO1 = numero;
+                numCuarto1 = numero;
                 numeros[i].numero = numero;
                 numeros[i].premio = PREMIOCUARTO;
-            } else if (i == QUINTO) {
-                NUMCUARTO2 = numero;
+            } else if (i == CUARTO2) {
+                numCuarto2 = numero;
                 numeros[i].numero = numero;
                 numeros[i].premio = PREMIOCUARTO;
             } else if (i < PRIMEROSPREMIOS) {
@@ -144,7 +150,7 @@ public class Loteria_Nadal {
             } else if (i < RESTOPREMIOS) {
                 numeros[i].numero = numero;
                 numeros[i].premio = PREMIOPEDREA;
-            } else {
+            } else { //per als que ja no tenen premi d'inici, calculem el premi
                 numeros[i].numero = numero;
                 numeros[i].premio = calcularPremio(numero);
             }
@@ -153,6 +159,8 @@ public class Loteria_Nadal {
 
     }
 
+    //funcio que busca a l'array el numero que introduiem i torna el premi que
+    //correspon
     public static int buscarPremio(boleto boletoIntroducido) {
         int resultat = 0;
         for (int i = 1; i < NUMPREMIOS; i++) {
@@ -165,7 +173,9 @@ public class Loteria_Nadal {
         return resultat;
     }
 
+    //funcio per demanar un numero enter
     static int Entero(String missatge) {
+
         Scanner scan = new Scanner(System.in);
         int result;
 
@@ -180,44 +190,65 @@ public class Loteria_Nadal {
         return result;
     }
 
-    static void ComprobarTam(boleto boletoIntroducido) {
+    //funcio que comproba que siguin 5 digits
+    static boolean ComprobarTam(boleto boletoIntroducido) {
+        boolean resultat = false;
 
         String cadena = String.valueOf(boletoIntroducido.numero);
         int tam = cadena.length();
-
+        
         while (tam != 5) {
             System.out.println("El numero no es valid, torna a provar: ");
+            
+
             boletoIntroducido.numero = Entero("");
+            cadena = String.valueOf(boletoIntroducido.numero);
+            tam = cadena.length();
 
         }
+        cadena = "";
+        resultat = true;
+        return resultat;
     }
 
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-
+    //funcio que crea l'array amb tots els nums del 0 al 99999
+    public static void llenarNums() {
         nums = new int[NUMPREMIOS];
         numAleatoris = new int[NUMPREMIOS];
         for (int i = 0; i < NUMPREMIOS - 1; i++) {
             nums[i] = i;
         }
+    }
+
+    //funcio per mostrar quins han sigut els numeros premiats
+    public static void mostrarPremis() {
+        System.out.println("Primer premi: " + numeros[1].numero);
+        System.out.println("Segon premi: " + numeros[2].numero);
+        System.out.println("Tercer premi: " + numeros[3].numero);
+        System.out.println("Quarts premis: " + numeros[4].numero + " " + numeros[5].numero);
+        System.out.println("Cinquens premis: " + numeros[6].numero + " " + numeros[7].numero
+                + " " + numeros[8].numero + " " + numeros[9].numero + " " + numeros[10].numero
+                + " " + numeros[11].numero + " " + numeros[12].numero + " " + numeros[13].numero);
+    }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        llenarNums();
         simulacion();
         System.out.println("Sorteo acabado");
-        System.out.println(numeros[1].numero);
+        mostrarPremis();
         boleto boletoIntroducido;
         String resposta = "n";
 
-        /**/
-        
         do {
             boletoIntroducido = new boleto();
 
-            boletoIntroducido.numero = Entero("Introdueix el teu numero: ");
-
+            boletoIntroducido.numero = Entero("Introdueix el teu numero de 5 xifres: ");
             ComprobarTam(boletoIntroducido);
 
             boletoIntroducido.premio = buscarPremio(boletoIntroducido);
 
-            System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + "€");
+            System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + " euros");
 
             System.out.println("Vols introduir un nou boleto?(s/n)");
             resposta = scan.nextLine();
