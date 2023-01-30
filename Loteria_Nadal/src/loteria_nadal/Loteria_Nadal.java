@@ -164,7 +164,7 @@ public class Loteria_Nadal {
 
         return resultat;
     }
-
+/**/
     static int Entero(String missatge) {
         Scanner scan = new Scanner(System.in);
         int result;
