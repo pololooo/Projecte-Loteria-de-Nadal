@@ -230,18 +230,12 @@ public class Loteria_Nadal {
                 + " " + numeros[8].numero + " " + numeros[9].numero + " " + numeros[10].numero
                 + " " + numeros[11].numero + " " + numeros[12].numero + " " + numeros[13].numero);
     }
-
-    public static void main(String[] args) {
+    
+    public static void IntroduirNum(boleto boletoIntroducido){
         Scanner scan = new Scanner(System.in);
-        llenarNums();
-        simulacion();
-        System.out.println("Sorteo acabado");
-        mostrarPremis();
-        boleto boletoIntroducido;
         String resposta = "n";
-
         do {
-            boletoIntroducido = new boleto();
+            
 
             boletoIntroducido.numero = Entero("Introdueix el teu numero de 5 xifres: ");
             ComprobarTam(boletoIntroducido);
@@ -254,6 +248,18 @@ public class Loteria_Nadal {
             resposta = scan.nextLine();
 
         } while (resposta.equals("s"));
+    }
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        llenarNums();
+        simulacion();
+        System.out.println("Sorteo acabado");
+        mostrarPremis();
+        boleto boletoIntroducido;
+        boletoIntroducido = new boleto();
+        IntroduirNum(boletoIntroducido);
+
+        
 
     }
 
