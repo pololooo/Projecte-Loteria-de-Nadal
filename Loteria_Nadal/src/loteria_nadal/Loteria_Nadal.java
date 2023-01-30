@@ -13,17 +13,17 @@ public class Loteria_Nadal {
     static int[] numAleatoris;
 
     //Quantitat de diners per decim
-    static final String PREMIOGORDO = "400.000€";
-    static final String PREMIOSEGUNDO = "125.000€";
-    static final String PREMIOTERCERO = "50.000€";
-    static final String PREMIOCUARTO = "20.000€";
-    static final String PREMIOQUINTO = "6.000€";
-    static final String PREMIOPEDREA = "1.000€";
-    static final String GORDOCONTIGUOS = "2.000€";
-    static final String SEGUNDOCONTIGUOS = "1.250€";
-    static final String TERCEROCONTIGUOS = "960€";
-    static final String DOSCIFRAS = "100€";
-    static final String ULTIMAGORDO = "20€";
+    static final int PREMIOGORDO = 400000;
+    static final int PREMIOSEGUNDO = 125000;
+    static final int PREMIOTERCERO = 50000;
+    static final int PREMIOCUARTO = 20000;
+    static final int PREMIOQUINTO = 6000;
+    static final int PREMIOPEDREA = 1000;
+    static final int GORDOCONTIGUOS = 2000;
+    static final int SEGUNDOCONTIGUOS = 1250;
+    static final int TERCEROCONTIGUOS = 960;
+    static final int DOSCIFRAS = 100;
+    static final int ULTIMAGORDO = 20;
 
     //Els premis que toquen (primer premi = gordo),...
     static final int PRIMERO = 1;
@@ -50,14 +50,14 @@ public class Loteria_Nadal {
     public static class boleto {
 
         int numero;
-        String premio;
+        int premio;
 
     }
 
     /*Si el numero no ha sigut premiat en cap dels premis del bombo petit
     es calculen les variacions */
-    public static String calcularPremio(int numero) {
-        String premi = "";
+    public static int calcularPremio(int numero) {
+        int premi = 0;
         if (numero == NUMGORDO + 1 || numero == NUMGORDO - 1) {
             premi = GORDOCONTIGUOS;
         } else if (numero == NUMSEGUNDO + 1 || numero == NUMSEGUNDO - 1) {
@@ -85,7 +85,7 @@ public class Loteria_Nadal {
         } else if ((numero / MIL) % CIEN == (NUMCUARTO2 / MIL) % CIEN) {
             premi = DOSCIFRAS;
         } else {
-            premi = "Aquest dècim no ha estat premiat.";
+            premi = 0;
         }
 
         return premi;
@@ -153,8 +153,8 @@ public class Loteria_Nadal {
 
     }
 
-    public static String buscarPremio(boleto boletoIntroducido) {
-        String resultat = "";
+    public static int buscarPremio(boleto boletoIntroducido) {
+        int resultat = 0;
         for (int i = 1; i < NUMPREMIOS; i++) {
             if (boletoIntroducido.numero == numeros[i].numero) {
                 resultat = numeros[i].premio;
