@@ -180,6 +180,17 @@ public class Loteria_Nadal {
         return result;
     }
 
+    static int ComprobarTam(boleto boletoIntroducido) {
+        String cadena = String.valueOf(boletoIntroducido.numero);
+        int tam = cadena.length();
+
+        while (tam != 5) {
+            System.out.println("El numero no es valid, torna a provar: ");
+            boletoIntroducido.numero = Entero("");
+
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
@@ -196,14 +207,12 @@ public class Loteria_Nadal {
 
         do {
             boletoIntroducido = new boleto();
+
             boletoIntroducido.numero = Entero("Introdueix el teu numero: ");
+
             boletoIntroducido.premio = buscarPremio(boletoIntroducido);
 
-            if (boletoIntroducido.numero.length != 5) {
-                System.out.println("El numero no es valid, torna a provar: ");
-                boletoIntroducido.numero = Entero("");
-
-            }
+            ComprobarTam = boletoIntroducido.numero(cadena);
 
             System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + "€");
 
