@@ -168,8 +168,9 @@ public class Loteria_Nadal {
     static int Entero(String missatge) {
         Scanner scan = new Scanner(System.in);
         int result;
-
+ 
         System.out.println(missatge);
+        
         while (!scan.hasNextInt()) {
             System.out.println("Solo numeros enteros de 5 cifras: ");
             scan.next();
@@ -179,6 +180,8 @@ public class Loteria_Nadal {
     }
 
     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
         nums = new int[NUMPREMIOS];
         numAleatoris = new int[NUMPREMIOS];
         for (int i = 0; i < NUMPREMIOS - 1; i++) {
@@ -188,11 +191,25 @@ public class Loteria_Nadal {
         System.out.println("Sorteo acabado");
         System.out.println(numeros[1].numero);
         boleto boletoIntroducido;
+        String resposta = "n";
 
-        boletoIntroducido = new boleto();
-        boletoIntroducido.numero = Entero("Introdueix el teu numero: ");
-        boletoIntroducido.premio = buscarPremio(boletoIntroducido);
-        System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio);
+        do {
+            boletoIntroducido = new boleto();
+            boletoIntroducido.numero = Entero("Introdueix el teu numero: ");
+            boletoIntroducido.premio = buscarPremio(boletoIntroducido);
+            
+            if (boletoIntroducido.numero !=5) {
+                System.out.println("El numero no es valid, torna a provar: ");
+                boletoIntroducido.numero = Entero("");
+                
+            }
+            
+            System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + "€");
+
+            System.out.println("Vols introduir un nou boleto?(s/n)");
+            resposta = scan.nextLine();
+
+        } while (resposta.equals("s"));
 
     }
 
