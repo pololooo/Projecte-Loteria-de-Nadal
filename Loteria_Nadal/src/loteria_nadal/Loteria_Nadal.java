@@ -168,9 +168,9 @@ public class Loteria_Nadal {
     static int Entero(String missatge) {
         Scanner scan = new Scanner(System.in);
         int result;
- 
+
         System.out.println(missatge);
-        
+
         while (!scan.hasNextInt()) {
             System.out.println("Solo numeros enteros de 5 cifras: ");
             scan.next();
@@ -196,14 +196,15 @@ public class Loteria_Nadal {
         do {
             boletoIntroducido = new boleto();
             boletoIntroducido.numero = Entero("Introdueix el teu numero: ");
+            int numeroIntroducido = boletoIntroducido.numero;
             boletoIntroducido.premio = buscarPremio(boletoIntroducido);
-            
-            if (boletoIntroducido.numero !=5) {
+
+            if (numeroIntroducido.length != 5) {
                 System.out.println("El numero no es valid, torna a provar: ");
-                boletoIntroducido.numero = Entero("");
-                
+                numeroIntroducido.numero = Entero("");
+
             }
-            
+
             System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + "€");
 
             System.out.println("Vols introduir un nou boleto?(s/n)");
