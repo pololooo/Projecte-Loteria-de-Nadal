@@ -68,7 +68,7 @@ public class Loteria_Nadal {
         } //comprobem si coincideixen les ultimes xifres del gros i del segon
         else if (numero % DIEZ == numGordo % DIEZ) {
             if (numero % CIEN == numGordo % CIEN) {
-                premi = DOSCIFRAS;
+                premi = DOSCIFRAS + ULTIMAGORDO;
             } else {
                 premi = ULTIMAGORDO;
             }
@@ -196,10 +196,9 @@ public class Loteria_Nadal {
 
         String cadena = String.valueOf(boletoIntroducido.numero);
         int tam = cadena.length();
-        
+
         while (tam != 5) {
             System.out.println("El numero no es valid, torna a provar: ");
-            
 
             boletoIntroducido.numero = Entero("");
             cadena = String.valueOf(boletoIntroducido.numero);
@@ -230,12 +229,11 @@ public class Loteria_Nadal {
                 + " " + numeros[8].numero + " " + numeros[9].numero + " " + numeros[10].numero
                 + " " + numeros[11].numero + " " + numeros[12].numero + " " + numeros[13].numero);
     }
-    
-    public static void IntroduirNum(boleto boletoIntroducido){
+
+    public static void IntroduirNum(boleto boletoIntroducido) {
         Scanner scan = new Scanner(System.in);
         String resposta = "n";
         do {
-            
 
             boletoIntroducido.numero = Entero("Introdueix el teu numero de 5 xifres: ");
             ComprobarTam(boletoIntroducido);
@@ -244,11 +242,13 @@ public class Loteria_Nadal {
 
             System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + " euros");
 
+            
             System.out.println("Vols introduir un nou boleto?(s/n)");
-            resposta = scan.nextLine();
+            resposta = scan.nextLine().toLowerCase();
 
         } while (resposta.equals("s"));
     }
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         llenarNums();
@@ -258,8 +258,6 @@ public class Loteria_Nadal {
         boleto boletoIntroducido;
         boletoIntroducido = new boleto();
         IntroduirNum(boletoIntroducido);
-
-        
 
     }
 
