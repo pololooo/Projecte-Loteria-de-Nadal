@@ -54,8 +54,13 @@ public class Loteria_Nadal {
 
     }
 
-    /*Si el numero no ha sigut premiat en cap dels premis del bombo petit
-    es calculen les variacions */
+    
+    /**
+     * Si el numero no ha sigut premiat en cap dels premis del bombo petit
+    es calculen les variacions
+     * @param numero
+     * @return 
+     */
     public static int calcularPremio(int numero) {
         int premi = 0;
         //Comprobem si es contigu al gros, al segon o al tercer
@@ -94,7 +99,11 @@ public class Loteria_Nadal {
         return premi;
     }
 
-    //funcio per tornar el numero aleatori
+    
+    /**
+     * funcio per tornar el numero aleatori i descartar-lo pel següent numero
+     * @return 
+     */
     public static int darNumero() {
         int numero = 0;
 
@@ -105,7 +114,11 @@ public class Loteria_Nadal {
         return numero;
     }
 
-    //funcio per generar el numero automatic
+    
+    /**
+     * funcio per generar el numero automatic
+     * @return 
+     */
     public static int generarNumero() {
         /*Aquesta funcio genera un numero aleatori, selecciona aquesta posicio
         de l'array amb numeros del 0 al 99999 i el descarta per al seguent numero*/
@@ -117,7 +130,10 @@ public class Loteria_Nadal {
 
         return nums[numero];
     }
-
+    
+    /**
+     * funcio que genera el sorteig
+     */
     public static void simulacion() {
 
         //Generem numeros randoms i li assignem un premi en ordre
@@ -159,8 +175,13 @@ public class Loteria_Nadal {
 
     }
 
-    //funcio que busca a l'array el numero que introduiem i torna el premi que
-    //correspon
+    //
+    /**
+     * funcio que busca a l'array el numero que introduiem i torna el premi que
+        correspon
+     * @param boletoIntroducido
+     * @return 
+     */
     public static int buscarPremio(boleto boletoIntroducido) {
         int resultat = 0;
         for (int i = 1; i < NUMPREMIOS; i++) {
@@ -173,7 +194,12 @@ public class Loteria_Nadal {
         return resultat;
     }
 
-    //funcio per demanar un numero enter
+    
+    /**
+     * funcio per demanar un numero enter
+     * @param missatge
+     * @return 
+     */
     static int Entero(String missatge) {
 
         Scanner scan = new Scanner(System.in);
@@ -190,7 +216,12 @@ public class Loteria_Nadal {
         return result;
     }
 
-    //funcio que comproba que siguin 5 digits
+    
+    /**
+     * funcio que comproba que siguin 5 digits
+     * @param boletoIntroducido
+     * @return 
+     */
     static boolean ComprobarTam(boleto boletoIntroducido) {
         boolean resultat = false;
 
@@ -210,7 +241,10 @@ public class Loteria_Nadal {
         return resultat;
     }
 
-    //funcio que crea l'array amb tots els nums del 0 al 99999
+    
+    /**
+     * funcio que crea l'array amb tots els nums del 0 al 99999
+     */
     public static void llenarNums() {
         nums = new int[NUMPREMIOS];
         numAleatoris = new int[NUMPREMIOS];
@@ -219,7 +253,10 @@ public class Loteria_Nadal {
         }
     }
 
-    //funcio per mostrar quins han sigut els numeros premiats
+    
+    /**
+     * funcio per mostrar quins han sigut els numeros premiats
+     */
     public static void mostrarPremis() {
         System.out.println("Primer premi: " + numeros[1].numero);
         System.out.println("Segon premi: " + numeros[2].numero);
@@ -229,23 +266,21 @@ public class Loteria_Nadal {
                 + " " + numeros[8].numero + " " + numeros[9].numero + " " + numeros[10].numero
                 + " " + numeros[11].numero + " " + numeros[12].numero + " " + numeros[13].numero);
     }
-
+    
+    /**
+     * funcio per introduir quin es el teu numero de decim
+     * @param boletoIntroducido 
+     */
     public static void IntroduirNum(boleto boletoIntroducido) {
         Scanner scan = new Scanner(System.in);
         String resposta = "n";
         do {
-
             boletoIntroducido.numero = Entero("Introdueix el teu numero de 5 xifres: ");
             ComprobarTam(boletoIntroducido);
-
             boletoIntroducido.premio = buscarPremio(boletoIntroducido);
-
-            System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + " euros");
-
-            
+            System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + " euros");          
             System.out.println("Vols introduir un nou boleto?(s/n)");
             resposta = scan.nextLine().toLowerCase();
-
         } while (resposta.equals("s"));
     }
 
