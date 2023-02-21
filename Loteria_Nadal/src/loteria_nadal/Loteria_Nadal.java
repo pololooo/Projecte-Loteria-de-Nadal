@@ -1,9 +1,18 @@
 package loteria_nadal;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/*Link al GitHub: https://github.com/pololooo/Projecte-Loteria-de-Nadal */
 public class Loteria_Nadal {
+
+    static Scanner scan = new Scanner(System.in);
 
     /*Aquí declarem unes constants globals, on guardem els premis i la quantitat
     de numeros que juguen (del 0 fins al 99.999)
@@ -46,6 +55,8 @@ public class Loteria_Nadal {
     static int numCuarto1;
     static int numCuarto2;
 
+    static String any;
+
     /*Cada boleto, té un numero de 5 xifres i un premi assignat (o no)*/
     public static class boleto {
 
@@ -54,12 +65,12 @@ public class Loteria_Nadal {
 
     }
 
-    
     /**
-     * Si el numero no ha sigut premiat en cap dels premis del bombo petit
-    es calculen les variacions
+     * Si el numero no ha sigut premiat en cap dels premis del bombo petit es
+     * calculen les variacions
+     *
      * @param numero
-     * @return 
+     * @return
      */
     public static int calcularPremio(int numero) {
         int premi = 0;
@@ -99,10 +110,10 @@ public class Loteria_Nadal {
         return premi;
     }
 
-    
     /**
      * funcio per tornar el numero aleatori i descartar-lo pel següent numero
-     * @return 
+     *
+     * @return
      */
     public static int darNumero() {
         int numero = 0;
@@ -114,10 +125,10 @@ public class Loteria_Nadal {
         return numero;
     }
 
-    
     /**
      * funcio per generar el numero automatic
-     * @return 
+     *
+     * @return
      */
     public static int generarNumero() {
         /*Aquesta funcio genera un numero aleatori, selecciona aquesta posicio
@@ -130,11 +141,11 @@ public class Loteria_Nadal {
 
         return nums[numero];
     }
-    
+
     /**
      * funcio que genera el sorteig
      */
-    public static void simulacion() {
+    public static void simulacion(File f, String any) {
 
         //Generem numeros randoms i li assignem un premi en ordre
         for (int i = 1; i < NUMPREMIOS; i++) {
@@ -170,7 +181,7 @@ public class Loteria_Nadal {
                 numeros[i].numero = numero;
                 numeros[i].premio = calcularPremio(numero);
             }
-
+            GrabarBoleto(numeros, i, any);
         }
 
     }
@@ -178,9 +189,10 @@ public class Loteria_Nadal {
     //
     /**
      * funcio que busca a l'array el numero que introduiem i torna el premi que
-        correspon
+     * correspon
+     *
      * @param boletoIntroducido
-     * @return 
+     * @return
      */
     public static int buscarPremio(boleto boletoIntroducido) {
         int resultat = 0;
@@ -194,15 +206,13 @@ public class Loteria_Nadal {
         return resultat;
     }
 
-    
     /**
      * funcio per demanar un numero enter
+     *
      * @param missatge
-     * @return 
+     * @return
      */
     static int Entero(String missatge) {
-
-        Scanner scan = new Scanner(System.in);
         int result;
 
         System.out.println(missatge);
@@ -216,11 +226,11 @@ public class Loteria_Nadal {
         return result;
     }
 
-    
     /**
      * funcio que comproba que siguin 5 digits
+     *
      * @param boletoIntroducido
-     * @return 
+     * @return
      */
     static boolean ComprobarTam(boleto boletoIntroducido) {
         boolean resultat = false;
@@ -241,7 +251,6 @@ public class Loteria_Nadal {
         return resultat;
     }
 
-    
     /**
      * funcio que crea l'array amb tots els nums del 0 al 99999
      */
@@ -253,7 +262,6 @@ public class Loteria_Nadal {
         }
     }
 
-    
     /**
      * funcio per mostrar quins han sigut els numeros premiats
      */
@@ -266,28 +274,99 @@ public class Loteria_Nadal {
                 + " " + numeros[8].numero + " " + numeros[9].numero + " " + numeros[10].numero
                 + " " + numeros[11].numero + " " + numeros[12].numero + " " + numeros[13].numero);
     }
-    
+
     /**
      * funcio per introduir quin es el teu numero de decim
-     * @param boletoIntroducido 
+     *
+     * @param boletoIntroducido
      */
     public static void IntroduirNum(boleto boletoIntroducido) {
-        Scanner scan = new Scanner(System.in);
         String resposta = "n";
         do {
             boletoIntroducido.numero = Entero("Introdueix el teu numero de 5 xifres: ");
             ComprobarTam(boletoIntroducido);
             boletoIntroducido.premio = buscarPremio(boletoIntroducido);
-            System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + " euros");          
+            System.out.println("Numero: " + boletoIntroducido.numero + " Premio: " + boletoIntroducido.premio + " euros");
             System.out.println("Vols introduir un nou boleto?(s/n)");
             resposta = scan.nextLine().toLowerCase();
         } while (resposta.equals("s"));
     }
 
+    public static File AbrirFichero(String nomFichero, boolean crear) {
+        File result = null;
+
+        result = new File(nomFichero);
+
+        if (!result.exists()) {
+            if (crear) {
+                try {
+                    result.createNewFile();
+
+                } catch (IOException ex) {
+                    Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
+                    result = null;
+                }
+            } else {
+                result = null;
+            }
+        }
+
+        return result;
+    }
+
+    public static void GrabarBoleto(boleto[] numeros, int i, String any) {
+        DataOutputStream dos = AbrirFicheroEscrituraBinario("Sorteig" + any + ".bin", true, true);
+
+        if (numeros[i] != null) {
+            try {
+                dos.writeInt(numeros[i].numero);
+                dos.write(numeros[i].premio);
+            } catch (IOException ex) {
+                Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        CerrarFicheroBinario(dos);
+
+    }
+
+    public static void CerrarFicheroBinario(DataOutputStream dos) {
+        try {
+            dos.flush();
+            dos.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static DataOutputStream AbrirFicheroEscrituraBinario(String nomFichero, boolean crear, boolean blnAnyadir) {
+        DataOutputStream dos = null;
+        File f = AbrirFichero(nomFichero, crear);
+
+        if (f != null) {
+            // Declarar el writer para poder escribir en el fichero¡
+            FileOutputStream writer;
+            try {
+                writer = new FileOutputStream(f, blnAnyadir);
+                // PrintWriter para poder escribir más comodamente
+                dos = new DataOutputStream(writer);
+            } catch (IOException ex) {
+                Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return dos;
+    }
+
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+        System.out.println("Inserta l'any del sorteig: ");
+        any = scan.nextLine();
+        File f = AbrirFichero("Sorteig" + any + ".bin", true);
         llenarNums();
-        simulacion();
+        simulacion(f, any);
+        Scanner scan = new Scanner(System.in);
+
         System.out.println("Sorteo acabado");
         mostrarPremis();
         boleto boletoIntroducido;
