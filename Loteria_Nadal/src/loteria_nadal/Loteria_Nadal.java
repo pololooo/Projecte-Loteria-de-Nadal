@@ -301,7 +301,8 @@ public class Loteria_Nadal {
             if (crear) {
                 try {
                     result.createNewFile();
-
+                    llenarNums();
+                    simulacion(result, any);
                 } catch (IOException ex) {
                     Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
                     result = null;
@@ -363,14 +364,9 @@ public class Loteria_Nadal {
         System.out.println("Inserta l'any del sorteig: ");
         any = scan.nextLine();
         File f = AbrirFichero("Sorteig" + any + ".bin", true);
-        llenarNums();
-        simulacion(f, any);
-        Scanner scan = new Scanner(System.in);
-
         System.out.println("Sorteo acabado");
         mostrarPremis();
-        boleto boletoIntroducido;
-        boletoIntroducido = new boleto();
+        boleto boletoIntroducido = new boleto();
         IntroduirNum(boletoIntroducido);
 
     }
