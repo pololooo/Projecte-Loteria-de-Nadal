@@ -1,7 +1,9 @@
 package loteria_nadal;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
@@ -266,13 +268,75 @@ public class Loteria_Nadal {
      * funcio per mostrar quins han sigut els numeros premiats
      */
     public static void mostrarPremis() {
-        System.out.println("Primer premi: " + numeros[1].numero);
-        System.out.println("Segon premi: " + numeros[2].numero);
-        System.out.println("Tercer premi: " + numeros[3].numero);
-        System.out.println("Quarts premis: " + numeros[4].numero + " " + numeros[5].numero);
-        System.out.println("Cinquens premis: " + numeros[6].numero + " " + numeros[7].numero
-                + " " + numeros[8].numero + " " + numeros[9].numero + " " + numeros[10].numero
-                + " " + numeros[11].numero + " " + numeros[12].numero + " " + numeros[13].numero);
+        System.out.println("Primer premi: " + LeerNumerosBinario(1).numero);
+        System.out.println("Segon premi: " + LeerNumerosBinario(2).numero);
+        System.out.println("Tercer premi: " + LeerNumerosBinario(3).numero);
+        System.out.println("Quarts premis: " + LeerNumerosBinario(4).numero + " " + LeerNumerosBinario(5).numero);
+        System.out.println("Cinquens premis: " + LeerNumerosBinario(6).numero + " " + LeerNumerosBinario(7).numero
+                + " " + LeerNumerosBinario(8).numero + " " + LeerNumerosBinario(9).numero + " " + LeerNumerosBinario(10).numero
+                + " " + LeerNumerosBinario(11).numero + " " + LeerNumerosBinario(12).numero + " " + LeerNumerosBinario(13).numero);
+    }
+    
+    public static boleto LeerNumerosBinario(int posicion) {
+        boleto blt = new boleto();
+        
+        String nombre = "Sorteig" + any + ".bin";
+        int linea = 1;
+        DataInputStream dis = AbrirFicheroLecturaBinario(nombre, true);
+        boolean trobat = false;
+        do{
+        blt = LeerDatosClienteBinario(dis);
+        if(posicion==linea){
+            trobat = true;
+        }else{
+            blt = LeerDatosClienteBinario(dis);
+            linea++;
+        }
+        }while(trobat!=true);
+        
+        CerrarFicheroBinario(dis);
+        return blt;
+    }
+    
+    public static void CerrarFicheroBinario(DataInputStream dis) {
+        try {
+            dis.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static boleto LeerDatosClienteBinario(DataInputStream dis) {
+        boleto blt = new boleto();
+
+        try {
+            blt.numero = dis.readInt();
+            blt.premio = dis.readInt();
+            
+
+        } catch (IOException ex) {
+            blt = null;
+        }
+        return blt;
+    }
+    
+    public static DataInputStream AbrirFicheroLecturaBinario(String nomFichero, boolean crear) {
+        DataInputStream dis = null;
+        File f = AbrirFichero(nomFichero, crear);
+
+        if (f != null) {
+            // Declarar el writer para poder escribir en el fichero¡
+            FileInputStream reader;
+            try {
+                reader = new FileInputStream(f);
+                // PrintWriter para poder escribir más comodamente
+                dis = new DataInputStream(reader);
+            } catch (IOException ex) {
+                Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return dis;
     }
 
     /**
@@ -321,7 +385,7 @@ public class Loteria_Nadal {
         if (numeros[i] != null) {
             try {
                 dos.writeInt(numeros[i].numero);
-                dos.write(numeros[i].premio);
+                dos.writeInt(numeros[i].premio);
             } catch (IOException ex) {
                 Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
             }
