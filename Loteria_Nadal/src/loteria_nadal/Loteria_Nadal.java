@@ -58,6 +58,7 @@ public class Loteria_Nadal {
     static int numCuarto2;
 
     static String any;
+    static final String MISSATGEPREMI = "El teu premi es de: ";
 
     /*Cada boleto, té un numero de 5 xifres i un premi assignat (o no)*/
     public static class boleto {
@@ -72,7 +73,8 @@ public class Loteria_Nadal {
      * calculen les variacions
      *
      * @param numero
-     * @return
+     * @return aquesta funció ens retorna el premi per aquells numeros que no
+     * han tingut premi directe
      */
     public static int calcularPremio(int numero) {
         int premi = 0;
@@ -115,7 +117,7 @@ public class Loteria_Nadal {
     /**
      * funcio per tornar el numero aleatori i descartar-lo pel següent numero
      *
-     * @return
+     * @return aquesta funcio retorna el numero del decim, generat aleatoriament
      */
     public static int darNumero() {
         int numero = 0;
@@ -130,7 +132,7 @@ public class Loteria_Nadal {
     /**
      * funcio per generar el numero automatic
      *
-     * @return
+     * @return aquesta funcio genera el numero aleatori
      */
     public static int generarNumero() {
         /*Aquesta funcio genera un numero aleatori, selecciona aquesta posicio
@@ -194,7 +196,8 @@ public class Loteria_Nadal {
      * correspon
      *
      * @param boletoIntroducido
-     * @return
+     * @return aquesta funcio ens retorna l'import del decim introduit per
+     * l'usuari
      */
     public static int buscarPremio(boleto boletoIntroducido) {
         int resultat = 0;
@@ -212,7 +215,7 @@ public class Loteria_Nadal {
      * funcio per demanar un numero enter
      *
      * @param missatge
-     * @return
+     * @return ens retorna el numero vàlid
      */
     static int Entero(String missatge) {
         int result;
@@ -232,7 +235,7 @@ public class Loteria_Nadal {
      * funcio que comproba que siguin 5 digits
      *
      * @param boletoIntroducido
-     * @return
+     * @return ens retorna el numero de decim amb un tamany valid
      */
     static boolean ComprobarTam(boleto boletoIntroducido) {
         boolean resultat = false;
@@ -276,50 +279,76 @@ public class Loteria_Nadal {
                 + " " + LeerNumerosBinario(8).numero + " " + LeerNumerosBinario(9).numero + " " + LeerNumerosBinario(10).numero
                 + " " + LeerNumerosBinario(11).numero + " " + LeerNumerosBinario(12).numero + " " + LeerNumerosBinario(13).numero);
     }
-    
+
     public static boleto LeerNumerosBinario(int posicion) {
         boleto blt = new boleto();
-        
+
         String nombre = "Sorteig" + any + ".bin";
         int linea = 1;
         DataInputStream dis = AbrirFicheroLecturaBinario(nombre, true);
         boolean trobat = false;
-        do{
-        blt = LeerDatosClienteBinario(dis);
-        if(posicion==linea){
-            trobat = true;
-        }else{
+        do {
             blt = LeerDatosClienteBinario(dis);
-            linea++;
-        }
-        }while(trobat!=true);
-        
-        CerrarFicheroBinario(dis);
+            if (posicion == linea) {
+                trobat = true;
+            } else {
+                blt = LeerDatosClienteBinario(dis);
+                linea++;
+            }
+        } while (trobat != true);
+
+        CerrarFicheroBinarioInput(dis);
         return blt;
     }
-    
-    public static void CerrarFicheroBinario(DataInputStream dis) {
+
+    public static void CerrarFicheroBinarioInput(DataInputStream dis) {
         try {
             dis.close();
         } catch (IOException ex) {
             Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    public static void CerrarFicheroBinario(DataOutputStream dos) {
+        try {
+            dos.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public static boleto LeerDatosClienteBinario(DataInputStream dis) {
         boleto blt = new boleto();
 
         try {
             blt.numero = dis.readInt();
             blt.premio = dis.readInt();
-            
 
         } catch (IOException ex) {
             blt = null;
         }
         return blt;
     }
-    
+
+    public static void ComprobarNumeroBinario() {
+        String nombre = "Sorteig" + any + ".bin";
+        DataInputStream dis = AbrirFicheroLecturaBinario(nombre, true);
+
+        boleto boletoIntroducido = new boleto();
+        boletoIntroducido.numero = Entero("Introdueix el teu numero de 5 xifres: ");
+        boolean trobat = false;
+        do {
+            boleto blt = LeerDatosClienteBinario(dis);
+            if (blt.numero == boletoIntroducido.numero) {
+                System.out.println(MISSATGEPREMI+blt.premio);
+                trobat = true;
+            } else {
+                blt = LeerDatosClienteBinario(dis);
+            }
+        } while (trobat != true);
+        CerrarFicheroBinarioInput(dis);
+    }
+
     public static DataInputStream AbrirFicheroLecturaBinario(String nomFichero, boolean crear) {
         DataInputStream dis = null;
         File f = AbrirFichero(nomFichero, crear);
@@ -396,7 +425,7 @@ public class Loteria_Nadal {
 
     }
 
-    public static void CerrarFicheroBinario(DataOutputStream dos) {
+    public static void CerrarFicheroBinarioOutput(DataOutputStream dos) {
         try {
             dos.flush();
             dos.close();
@@ -431,8 +460,8 @@ public class Loteria_Nadal {
         System.out.println("Sorteo acabado");
         mostrarPremis();
         boleto boletoIntroducido = new boleto();
-        IntroduirNum(boletoIntroducido);
-
+        //IntroduirNum(boletoIntroducido);
+        ComprobarNumeroBinario();
     }
 
 }
