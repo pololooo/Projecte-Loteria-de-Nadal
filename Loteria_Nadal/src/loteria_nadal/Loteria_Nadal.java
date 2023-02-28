@@ -340,7 +340,7 @@ public class Loteria_Nadal {
         do {
             boleto blt = LeerDatosClienteBinario(dis);
             if (blt.numero == boletoIntroducido.numero) {
-                System.out.println(MISSATGEPREMI+blt.premio);
+                System.out.println(MISSATGEPREMI + blt.premio);
                 trobat = true;
             } else {
                 blt = LeerDatosClienteBinario(dis);
@@ -454,14 +454,108 @@ public class Loteria_Nadal {
     }
 
     public static void main(String[] args) {
-        System.out.println("Inserta l'any del sorteig: ");
-        any = scan.nextLine();
-        File f = AbrirFichero("Sorteig" + any + ".bin", true);
-        System.out.println("Sorteo acabado");
-        mostrarPremis();
-        boleto boletoIntroducido = new boleto();
-        //IntroduirNum(boletoIntroducido);
-        ComprobarNumeroBinario();
+        int result = menu();
+        while (result != 0) {
+            gestionMenu(result);
+            result = menu();
+        }
     }
-//hola
+
+    //Añair parametros amigos
+    public static class Amigo {
+
+        String nombre;
+        int numLoteria;
+        double importe;
+
+        Amigo(String nombre, int numLoteria, double importe) {
+            this.nombre = nombre;
+            this.numLoteria = numLoteria;
+            this.importe = importe;
+        }
+    }
+
+    static String nombre;
+    static int anySorteig;
+    static List<Amigo> amigos;
+    static double importeTotal;
+
+    public void Colla(String nombre, int anySorteig) {
+        this.nombre = nombre;
+        this.anySorteig = anySorteig;
+        amigos = new ArrayList<Amigo>();
+        importeTotal = 0;
+    }
+
+    // Método para añadir un amigo a la colla
+    public static void addAmigo(String nombre, int numLoteria, double importe) {
+        amigos.add(new Amigo(nombre, numLoteria, importe));
+        importeTotal += importe;
+    }
+
+    // Método para comprobar los premios de la colla
+    // Método para crear una colla a partir de los datos introducidos por el usuario
+    public static void crearColla() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduce el nombre de la colla:");
+        String nombre = sc.nextLine();
+
+        System.out.println("Introduce el año del sorteig:");
+        int anySorteig = Integer.parseInt(sc.nextLine());
+
+        boolean seguirAñadiendo = true;
+        while (seguirAñadiendo) {
+            System.out.println("Introduce el nombre del amigo:");
+            String nombreAmigo = sc.nextLine();
+
+            System.out.println("Introduce el número de lotería aportado por el amigo:");
+            int numLoteria = Integer.parseInt(sc.nextLine());
+
+            System.out.println("Introduce el importe aportado por el amigo (debe ser múltiplo de 5 entre 5 y 60):");
+            double importe = Double.parseDouble(sc.nextLine());
+            while (importe < 5 || importe > 60 || importe % 5 != 0) {
+                System.out.println("El importe introducido no es válido. Introduce un importe entre 5€ y 60€, múltiplo de 5:");
+                importe = Double.parseDouble(sc.nextLine());
+            }
+
+            System.out.println("¿Quieres añadir otro amigo a la colla? (s/n)");
+            String respuesta = sc.nextLine();
+            seguirAñadiendo = respuesta.equals("s");
+        }
+
+    }
+
+    //Elegir opcion del menu y imprimir mensajes
+    public static int menu() {
+        Scanner scan = new Scanner(System.in);
+        int result = 0;
+        System.out.println("");
+        System.out.println("___MENU___");
+        System.out.println("[1] Sorteo");
+        System.out.println("[2] Crear grupo");
+        System.out.println("[0] EXIT");
+        result = Entero("Selecciona una opcion: ");
+        scan.nextLine();
+        return result;
+    }
+
+    //Gestion del menu
+    public static void gestionMenu(int result) {
+
+        switch (result) {
+            case 1:
+                System.out.println("Inserta l'any del sorteig: ");
+                any = scan.next();
+                File f = AbrirFichero("Sorteig" + any + ".bin", true);
+                System.out.println("Sorteo acabado");
+                mostrarPremis();
+                boleto boletoIntroducido = new boleto();
+                //IntroduirNum(boletoIntroducido);
+                ComprobarNumeroBinario();
+                break;
+            case 2:
+                crearColla();
+                break;
+        }
+    }
 }
