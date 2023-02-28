@@ -463,5 +463,5 @@ public class Loteria_Nadal {
         //IntroduirNum(boletoIntroducido);
         ComprobarNumeroBinario();
     }
-
+//hola
 }
