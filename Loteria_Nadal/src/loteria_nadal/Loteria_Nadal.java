@@ -287,15 +287,16 @@ public class Loteria_Nadal {
         int linea = 1;
         DataInputStream dis = AbrirFicheroLecturaBinario(nombre, true);
         boolean trobat = false;
-        do {
-            blt = LeerDatosClienteBinario(dis);
+        blt = LeerNumerosPremiados(dis);
+        while(trobat!=true){
+            
             if (posicion == linea) {
                 trobat = true;
             } else {
-                blt = LeerDatosClienteBinario(dis);
+                blt = LeerNumerosPremiados(dis);
                 linea++;
             }
-        } while (trobat != true);
+        } 
 
         CerrarFicheroBinarioInput(dis);
         return blt;
@@ -317,7 +318,7 @@ public class Loteria_Nadal {
         }
     }
 
-    public static boleto LeerDatosClienteBinario(DataInputStream dis) {
+    public static boleto LeerNumerosPremiados(DataInputStream dis) {
         boleto blt = new boleto();
 
         try {
@@ -337,15 +338,16 @@ public class Loteria_Nadal {
         boleto boletoIntroducido = new boleto();
         boletoIntroducido.numero = Entero("Introdueix el teu numero de 5 xifres: ");
         boolean trobat = false;
-        do {
-            boleto blt = LeerDatosClienteBinario(dis);
+        boleto blt = LeerNumerosPremiados(dis);
+        while(trobat!=true){
+            
             if (blt.numero == boletoIntroducido.numero) {
                 System.out.println(MISSATGEPREMI + blt.premio);
                 trobat = true;
             } else {
-                blt = LeerDatosClienteBinario(dis);
+                blt = LeerNumerosPremiados(dis);
             }
-        } while (trobat != true);
+        }
         CerrarFicheroBinarioInput(dis);
     }
 
