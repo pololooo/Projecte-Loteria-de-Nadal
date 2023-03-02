@@ -5,10 +5,10 @@ MENU 0
 4-Sortir 4
 Selecciona una opció: 5
 Escull l’idioma: 6
-Español 7
-Català 8
-Euskaraz 9
-Galego 10
+1-Español 7
+2-Català 8
+3-Euskaraz 9
+4-Galego 10
 Introdueix l’any del sorteig: 11
 Sorteig acabat 12
 Primer premi: 13

@@ -21,7 +21,7 @@ public class Loteria_Nadal {
 
     static Scanner scan = new Scanner(System.in);
 
-    /*Aquí declarem unes constants globals, on guardem els premis i la quantitat
+    /*Aqu? declarem unes constants globals, on guardem els premis i la quantitat
     de numeros que juguen (del 0 fins al 99.999)
      */
     static final int NUMPREMIOS = 100000;
@@ -53,7 +53,14 @@ public class Loteria_Nadal {
     static final int MIL = 1000;
     static final int CIEN = 100;
     static final int DIEZ = 10;
-
+    static final int VEINTIOCHO= 28;
+    static final int CINCO= 5;
+    static final int TRECE= 13;
+    static final int DIECIOCHO= 18;
+    static final int VEINTE= 20;
+    static final int VEINTIDOS= 22;
+    static final int SESENTA= 60;
+    
     /*Declarem les variables globals*/
     static boleto[] numeros = new boleto[NUMPREMIOS];
     static int numGordo;
@@ -67,14 +74,15 @@ public class Loteria_Nadal {
     public static final String FICHERO_CAT = "./catalan.txt";
     public static final String FICHERO_EUSK = "./euskera.txt";
     public static final String FICHERO_GAL = "./gallego.txt";
+    
+    //Variables globals
     public static int numLinea = 0;
     public static int opcionIdioma = 0;
     public static int opcion = 0;
 
     static String any;
-    static final String MISSATGEPREMI = "El teu premi es de: ";
 
-    /*Cada boleto, té un numero de 5 xifres i un premi assignat (o no)*/
+    /*Cada boleto, t? un numero de 5 xifres i un premi assignat (o no)*/
     public static class boleto {
 
         int numero;
@@ -87,7 +95,7 @@ public class Loteria_Nadal {
      * calculen les variacions
      *
      * @param numero
-     * @return aquesta funció ens retorna el premi per aquells numeros que no
+     * @return aquesta funci? ens retorna el premi per aquells numeros que no
      * han tingut premi directe
      */
     public static int calcularPremio(int numero) {
@@ -129,7 +137,7 @@ public class Loteria_Nadal {
     }
 
     /**
-     * funcio per tornar el numero aleatori i descartar-lo pel següent numero
+     * funcio per tornar el numero aleatori i descartar-lo pel seg?ent numero
      *
      * @return aquesta funcio retorna el numero del decim, generat aleatoriament
      */
@@ -228,7 +236,7 @@ public class Loteria_Nadal {
      * funcio per demanar un numero enter
      *
      * @param missatge
-     * @return ens retorna el numero vàlid
+     * @return ens retorna el numero v?lid
      */
     static int Entero(String missatge) {
         int result;
@@ -236,7 +244,7 @@ public class Loteria_Nadal {
         //System.out.println(missatge);
         try {
             while (!scan.hasNextInt()) {
-                numLinea = 28;
+                numLinea = VEINTIOCHO;
                 LeerLineaIdioma();
                 scan.next();
             }
@@ -260,9 +268,9 @@ public class Loteria_Nadal {
         String cadena = String.valueOf(boletoIntroducido.numero);
         int tam = cadena.length();
 
-        while (tam != 5) {
+        while (tam != CINCO) {
             try {
-                numLinea = 27;
+                numLinea = VEINTIOCHO-1;
                 LeerLineaIdioma();
                 boletoIntroducido.numero = Entero("");
                 cadena = String.valueOf(boletoIntroducido.numero);
@@ -293,7 +301,7 @@ public class Loteria_Nadal {
      */
     public static void mostrarPremis() {
         try {
-            numLinea = 13;
+            numLinea = TRECE;
             LeerLineaIdioma();
             System.out.println(LeerNumerosBinario(1).numero);
             numLinea++;
@@ -372,15 +380,16 @@ public class Loteria_Nadal {
             DataInputStream dis = AbrirFicheroLecturaBinario(nombre, true);
 
             boleto boletoIntroducido = new boleto();
-            numLinea = 18;
-            // System.out.println(LeerLineaIdioma());
+            numLinea =DIECIOCHO;
             boletoIntroducido.numero = Entero(LeerLineaIdioma());
             boolean trobat = false;
             boleto blt = LeerDatosClienteBinario(dis);
             while (trobat != true) {
 
                 if (blt.numero == boletoIntroducido.numero) {
-                    System.out.println(MISSATGEPREMI + blt.premio);
+                    numLinea++;
+                    LeerLineaIdioma();
+                    System.out.println(blt.premio+" ?");
                     trobat = true;
                 } else {
                     blt = LeerDatosClienteBinario(dis);
@@ -397,11 +406,11 @@ public class Loteria_Nadal {
         File f = AbrirFichero(nomFichero, crear);
 
         if (f != null) {
-            // Declarar el writer para poder escribir en el fichero¡
+            // Declarar el writer para poder escribir en el fichero?
             FileInputStream reader;
             try {
                 reader = new FileInputStream(f);
-                // PrintWriter para poder escribir más comodamente
+                // PrintWriter para poder escribir m?s comodamente
                 dis = new DataInputStream(reader);
             } catch (IOException ex) {
                 Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
@@ -421,14 +430,14 @@ public class Loteria_Nadal {
 
         try {
             do {
-                numLinea = 18;
+                numLinea = DIECIOCHO;
                 LeerLineaIdioma();
                 ComprobarTam(boletoIntroducido);
                 boletoIntroducido.premio = buscarPremio(boletoIntroducido);
 
-                numLinea = 19;
+                numLinea = DIECIOCHO+1;
                 LeerLineaIdioma();
-                numLinea = 29;
+                numLinea = (DIECIOCHO+1)+DIEZ;
                 LeerLineaIdioma();
                 resposta = scan.nextLine().toLowerCase();
             } while (resposta.equals("s"));
@@ -492,11 +501,11 @@ public class Loteria_Nadal {
         File f = AbrirFichero(nomFichero, crear);
 
         if (f != null) {
-            // Declarar el writer para poder escribir en el fichero¡
+            // Declarar el writer para poder escribir en el fichero?
             FileOutputStream writer;
             try {
                 writer = new FileOutputStream(f, blnAnyadir);
-                // PrintWriter para poder escribir más comodamente
+                // PrintWriter para poder escribir m?s comodamente
                 dos = new DataOutputStream(writer);
             } catch (IOException ex) {
                 Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
@@ -506,7 +515,7 @@ public class Loteria_Nadal {
         return dos;
     }
 
-    //Añair parametros amigos
+    //A?air parametros amigos
     public static class Amigo {
 
         String nombre;
@@ -532,7 +541,7 @@ public class Loteria_Nadal {
         importeTotal = 0;
     }
 
-    // Método para añadir un amigo a la colla
+    // M?todo para a?adir un amigo a la colla
     public static void addAmigo(String nombre, int numLoteria, double importe) {
         amigos.add(new Amigo(nombre, numLoteria, importe));
         importeTotal += importe;
@@ -559,11 +568,11 @@ public class Loteria_Nadal {
         File f = AbrirFichero(nomFichero, crear);
 
         if (f != null) {
-            // Declarar el reader para poder leer el fichero¡
+            // Declarar el reader para poder leer el fichero?
             FileReader reader;
             try {
                 reader = new FileReader(f);
-                // Buffered reader para poder leer más comodamente
+                // Buffered reader para poder leer m?s comodamente
                 br = new BufferedReader(reader);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
@@ -600,8 +609,8 @@ public class Loteria_Nadal {
      * Esculls l'idioma
      */
     public static void MenuIdioma() {
-        System.out.println("1-Español");
-        System.out.println("2-Català");
+        System.out.println("1-Espa?ol");
+        System.out.println("2-Catal?");
         System.out.println("3-Euskeraz");
         System.out.println("4-Galego");
         opcionIdioma = scan.nextInt();
@@ -617,7 +626,7 @@ public class Loteria_Nadal {
                 //Imprimeix les 3 opcions del menu
                 LeerLineaIdioma();
                 numLinea++;
-            } while (numLinea < 6);
+            } while (numLinea < CINCO+1);
             opcion = scan.nextInt();
 
             opcionesMenu();
@@ -627,7 +636,7 @@ public class Loteria_Nadal {
         }
     }
 
-    //Si escull l'opció de canviar d'idioma
+    //Si escull l'opci? de canviar d'idioma
     public static void opcionEscogerIdioma() {
         //  numLinea=6;
         try {
@@ -643,9 +652,9 @@ public class Loteria_Nadal {
 
     }
 
-    //Si escull l'opció del sorteig
+    //Si escull l'opci? del sorteig
     public static void opcionSorteo() {
-        numLinea = 11;
+        numLinea = DIEZ+1;
         try {
             //Inserta l'any del sorteig:
             LeerLineaIdioma();
@@ -664,10 +673,10 @@ public class Loteria_Nadal {
 
     }
 
-    // Método para comprobar los premios de la colla
-    // Método para crear una colla a partir de los datos introducidos por el usuario
+    // M?todo para comprobar los premios de la colla
+    // M?todo para crear una colla a partir de los datos introducidos por el usuario
     public static void opcionGrupo() {
-        numLinea = 20;
+        numLinea = VEINTE;
 
         try {
 
@@ -675,18 +684,16 @@ public class Loteria_Nadal {
             String nombre = scan.next();
 
             numLinea++;
-            //numLinea=21
             LeerLineaIdioma();
             int anySorteig = Integer.parseInt(scan.next());
 
-            boolean seguirAñadiendo = true;
-            while (seguirAñadiendo) {
-                //numLinea=22
-                numLinea=22;
+            boolean seguirA?adiendo = true;
+            while (seguirA?adiendo) {
+               
+                numLinea=VEINTIDOS;
                 LeerLineaIdioma();
                 String nombreAmigo = scan.next();
 
-                //numLinea=23
                 numLinea++;
                 LeerLineaIdioma();
                 System.out.println(nombreAmigo);
@@ -696,8 +703,8 @@ public class Loteria_Nadal {
                 LeerLineaIdioma();
                 System.out.println(nombreAmigo);
                 double importe = Double.parseDouble(scan.next());
-                while (importe <= 5 || importe >= 60 || importe % 5 != 0) {
-                    numLinea=25;
+                while (importe <= CINCO || importe >= SESENTA || importe % CINCO != 0) {
+                    numLinea=VEINTE+5;
                     LeerLineaIdioma();
                     importe = Double.parseDouble(scan.next());
                 }
@@ -705,7 +712,7 @@ public class Loteria_Nadal {
                 numLinea=26;
                 LeerLineaIdioma();
                 String respuesta = scan.next();
-                seguirAñadiendo = respuesta.equals("s");
+                seguirA?adiendo = respuesta.equals("s");
             }
 
         } catch (IOException ex) {
@@ -744,17 +751,10 @@ public class Loteria_Nadal {
     }
 
     public static void main(String[] args) {
-        /*
-        int result = menu();
-        while (result != 0) {
-            gestionMenu(result);
-            result = menu();
-        }
-        //LeerFichero();
-         */
+
         LeerFichero();
         MenuIdioma();
-        while (opcion != 4) {
+        while (opcion != CINCO-1) {
             Menu();
         }
 
