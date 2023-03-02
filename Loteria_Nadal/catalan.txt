@@ -1,0 +1,30 @@
+MENU 0
+1-Sorteig 1
+2-Crear grup 2
+3-Canviar idioma 3
+4-Sortir 4
+Selecciona una opció: 5
+Escull l’idioma: 6
+Español 7
+Català 8
+Euskaraz 9
+Galego 10
+Introdueix l’any del sorteig: 11
+Sorteig acabat 12
+Primer premi: 13
+Segon premi: 14
+Tercer premi: 15
+Quarts premis: 16
+Cinquens premis: 17
+Introdueix el teu dècim: 18
+Has guanyat un total de: 19
+Introdueix el nom del grup: 20
+Introdueix l’any del sorteig: 21
+Introdueix el nom del membre: 22
+Introdueix el dècim de 23
+Introdueix l’import aportat per 24 
+L'import no és vàlid! Introdueix un vàlid: 25
+Vols afegir un altre membre al grup? (s/n) 26
+El decim no és vàlid, torna a provar! 27
+Nomes nombres enters de 5 xifres! 28
+Vols introduir un altre dècim? (s/n) 29

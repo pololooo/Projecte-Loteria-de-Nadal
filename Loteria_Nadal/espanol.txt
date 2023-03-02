@@ -1,0 +1,30 @@
+MENU
+1-Sorteo
+2-Crear grupo
+3-Cambiar idioma
+4-Salir
+Selecciona una opción:
+Escoge el idioma:
+Español
+Català
+Euskaraz
+Galego
+Inserta el año del sorteo:
+Sorteo acabado
+Primer premio:
+Segundo premio:
+Tercer premio:
+Cuartos premios:
+Quintos premios:
+Introduce tu décimo:
+Has ganado un total de: 
+Introduce el nombre del grupo:
+Inserta el año del sorteo:
+Introduce el nombre del miembro: 
+Introduce el decimo de 
+Introduce el importe aportado por 
+¡El importe no es válido! Introduce uno válido:
+¿Quieres añadir otro miembro al grupo? (s/n)
+El décimo no es válido, ¡vuelve a probar!
+¡Solo números enteros de 5 cifras!
+¿Quieres introducir otro décimo? (s/n)

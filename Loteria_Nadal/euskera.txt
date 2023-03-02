@@ -1,0 +1,30 @@
+MENUA
+1-Zozketa
+2-Taldea sortu
+3-Hizkuntza aldatu
+4-Irten
+Hautatu aukera bat:
+Aukeratu hizkuntza:
+Español
+Català
+Euskaraz
+Galego
+Sartu zozketaren urtea:
+Amaitutako zozketa
+Lehen saria:
+Bigarren saria:
+Hirugarren saria:
+Laugarren sariak:
+Bosgarren sariak:
+Sartu zure hamargarrena:
+Guztira, honako hauek irabazi dituzu:
+Sartu taldearen izena:
+Sartu zozketaren urtea:
+Sartu kidearen izena:
+Sartu dezimoa:
+Sartu jarritako zenbatekoa
+Zenbatekoa ez da baliozkoa! Sartu baliozko bat:
+Beste kide bat gehitu nahi duzu taldera? (s/n)
+Dezimoak ez du balio, saiatu berriro!
+5 zifrako zenbaki osoak bakarrik!
+Beste dezimo bat sartu nahi duzu? (s/n)
