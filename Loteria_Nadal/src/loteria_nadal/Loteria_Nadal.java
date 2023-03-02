@@ -682,7 +682,7 @@ public class Loteria_Nadal {
             boolean seguirAñadiendo = true;
             while (seguirAñadiendo) {
                 //numLinea=22
-                numLinea++;
+                numLinea=22;
                 LeerLineaIdioma();
                 String nombreAmigo = scan.next();
 
@@ -697,12 +697,12 @@ public class Loteria_Nadal {
                 System.out.println(nombreAmigo);
                 double importe = Double.parseDouble(scan.next());
                 while (importe <= 5 || importe >= 60 || importe % 5 != 0) {
-                    numLinea++;
+                    numLinea=25;
                     LeerLineaIdioma();
                     importe = Double.parseDouble(scan.next());
                 }
 
-                numLinea++;
+                numLinea=26;
                 LeerLineaIdioma();
                 String respuesta = scan.next();
                 seguirAñadiendo = respuesta.equals("s");
