@@ -60,6 +60,8 @@ public class Loteria_Nadal {
     static final int VEINTE= 20;
     static final int VEINTIDOS= 22;
     static final int SESENTA= 60;
+    static final int DOS=2;
+    
     
     /*Declarem les variables globals*/
     static boleto[] numeros = new boleto[NUMPREMIOS];
@@ -306,18 +308,18 @@ public class Loteria_Nadal {
             System.out.println(LeerNumerosBinario(1).numero);
             numLinea++;
             LeerLineaIdioma();
-            System.out.println(LeerNumerosBinario(2).numero);
+            System.out.println(LeerNumerosBinario(DOS).numero);
             numLinea++;
             LeerLineaIdioma();
-            System.out.println(LeerNumerosBinario(3).numero);
+            System.out.println(LeerNumerosBinario(DOS+1).numero);
             numLinea++;
             LeerLineaIdioma();
-            System.out.println(LeerNumerosBinario(4).numero + " " + LeerNumerosBinario(5).numero);
+            System.out.println(LeerNumerosBinario(CINCO-1).numero + " " + LeerNumerosBinario(CINCO).numero);
             numLinea++;
             LeerLineaIdioma();
-            System.out.println(LeerNumerosBinario(6).numero + " " + LeerNumerosBinario(7).numero
-                    + " " + LeerNumerosBinario(8).numero + " " + LeerNumerosBinario(9).numero + " " + LeerNumerosBinario(10).numero
-                    + " " + LeerNumerosBinario(11).numero + " " + LeerNumerosBinario(12).numero + " " + LeerNumerosBinario(13).numero);
+            System.out.println(LeerNumerosBinario(CINCO+1).numero + " " + LeerNumerosBinario(CINCO+DOS).numero
+                    + " " + LeerNumerosBinario(DIEZ-DOS).numero + " " + LeerNumerosBinario(DIEZ-1).numero + " " + LeerNumerosBinario(DIEZ).numero
+                    + " " + LeerNumerosBinario(DIEZ+1).numero + " " + LeerNumerosBinario(TRECE-1).numero + " " + LeerNumerosBinario(TRECE).numero);
         } catch (IOException ex) {
             Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -687,8 +689,8 @@ public class Loteria_Nadal {
             LeerLineaIdioma();
             int anySorteig = Integer.parseInt(scan.next());
 
-            boolean seguirA?adiendo = true;
-            while (seguirA?adiendo) {
+            boolean seguirAnadiendo = true;
+            while (seguirAnadiendo) {
                
                 numLinea=VEINTIDOS;
                 LeerLineaIdioma();
@@ -704,15 +706,15 @@ public class Loteria_Nadal {
                 System.out.println(nombreAmigo);
                 double importe = Double.parseDouble(scan.next());
                 while (importe <= CINCO || importe >= SESENTA || importe % CINCO != 0) {
-                    numLinea=VEINTE+5;
+                    numLinea=VEINTE+CINCO;
                     LeerLineaIdioma();
                     importe = Double.parseDouble(scan.next());
                 }
 
-                numLinea=26;
+                numLinea=VEINTE+CINCO+1;
                 LeerLineaIdioma();
                 String respuesta = scan.next();
-                seguirA?adiendo = respuesta.equals("s");
+                seguirAnadiendo = respuesta.equals("s");
             }
 
         } catch (IOException ex) {
