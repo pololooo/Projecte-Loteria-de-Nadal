@@ -719,7 +719,7 @@ public class Loteria_Nadal {
                 String respuesta = scan.next();
                 seguirAnadiendo = respuesta.equals("s");
             }
-            
+           
             importeTotal = importe;
             //Print collas
             System.out.println();
