@@ -677,7 +677,7 @@ public class Loteria_Nadal {
                 //Imprimeix les opcions d'idiomes
                 LeerLineaIdioma();
                 numLinea++;
-            } while (numLinea < DIEZ-1);
+            } while (numLinea < DIEZ+1);
             opcionIdioma = scan.nextInt();
         } catch (IOException ex) {
             Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
