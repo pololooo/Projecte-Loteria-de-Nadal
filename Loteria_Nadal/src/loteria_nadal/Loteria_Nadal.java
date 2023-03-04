@@ -213,26 +213,7 @@ public class Loteria_Nadal {
 
     }
 
-    /**
-     * funcio que busca a l'array el numero que introduiem i torna el premi que
-     * correspon
-     *
-     * @param boletoIntroducido
-     * @return aquesta funcio ens retorna l'import del decim introduit per
-     * l'usuari
-     */
-    public static int buscarPremio(boleto boletoIntroducido) {
-        int resultat = 0;
-        for (int i = 1; i < NUMPREMIOS; i++) {
-            if (boletoIntroducido.numero == numeros[i].numero) {
-                resultat = numeros[i].premio;
-            }
-
-        }
-
-        return resultat;
-    }
-
+  
     /**
      * funcio per demanar un numero enter
      *
@@ -304,40 +285,47 @@ public class Loteria_Nadal {
         try {
             numLinea = TRECE;
             LeerLineaIdioma();
-            System.out.println(LeerNumerosBinario(1).numero);
+            System.out.println(LeerNumerosPremiadosBinario(1).numero);
             numLinea++;
             LeerLineaIdioma();
-            System.out.println(LeerNumerosBinario(DOS).numero);
+            System.out.println(LeerNumerosPremiadosBinario(DOS).numero);
             numLinea++;
             LeerLineaIdioma();
-            System.out.println(LeerNumerosBinario(DOS + 1).numero);
+            System.out.println(LeerNumerosPremiadosBinario(DOS + 1).numero);
             numLinea++;
             LeerLineaIdioma();
-            System.out.println(LeerNumerosBinario(CINCO - 1).numero + " " + LeerNumerosBinario(CINCO).numero);
+            System.out.println(LeerNumerosPremiadosBinario(CINCO - 1).numero + " " + LeerNumerosPremiadosBinario(CINCO).numero);
             numLinea++;
             LeerLineaIdioma();
-            System.out.println(LeerNumerosBinario(CINCO + 1).numero + " " + LeerNumerosBinario(CINCO + DOS).numero
-                    + " " + LeerNumerosBinario(DIEZ - DOS).numero + " " + LeerNumerosBinario(DIEZ - 1).numero + " " + LeerNumerosBinario(DIEZ).numero
-                    + " " + LeerNumerosBinario(DIEZ + 1).numero + " " + LeerNumerosBinario(TRECE - 1).numero + " " + LeerNumerosBinario(TRECE).numero);
+            System.out.println(LeerNumerosPremiadosBinario(CINCO + 1).numero + " " + LeerNumerosPremiadosBinario(CINCO + DOS).numero
+                    + " " + LeerNumerosPremiadosBinario(DIEZ - DOS).numero + " " + LeerNumerosPremiadosBinario(DIEZ - 1).numero + " " + LeerNumerosPremiadosBinario(DIEZ).numero
+                    + " " + LeerNumerosPremiadosBinario(DIEZ + 1).numero + " " + LeerNumerosPremiadosBinario(TRECE - 1).numero + " " + LeerNumerosPremiadosBinario(TRECE).numero);
         } catch (IOException ex) {
             Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public static boleto LeerNumerosBinario(int posicion) {
+    
+    /**
+     * funcion que nos servir? para leer los diferentes numeros del sorteo y poder
+     * devolver los que buscamos, en este caso lo usamos para devolver los primeros
+     * premios
+     * @param posicion
+     * @return 
+     */
+    public static boleto LeerNumerosPremiadosBinario(int posicion) {
         boleto blt = new boleto();
 
         String nombre = "Sorteig" + any + ".bin";
         int linea = 1;
         DataInputStream dis = AbrirFicheroLecturaBinario(nombre, true);
         boolean trobat = false;
-        blt = LeerDatosClienteBinario(dis);
+        blt = LeerNumerosSorteo(dis);
         while (trobat != true) {
 
             if (posicion == linea) {
                 trobat = true;
             } else {
-                blt = LeerDatosClienteBinario(dis);
+                blt = LeerNumerosSorteo(dis);
                 linea++;
             }
         }
@@ -345,7 +333,11 @@ public class Loteria_Nadal {
         CerrarFicheroBinarioInput(dis);
         return blt;
     }
-
+    
+    /**
+     * funcion que nos sirve para cerrar un archivo binario del que estamos leyendo
+     * @param dis 
+     */
     public static void CerrarFicheroBinarioInput(DataInputStream dis) {
         try {
             dis.close();
@@ -353,7 +345,11 @@ public class Loteria_Nadal {
             Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /**
+     * funcion para cerrar un archivo binario en el que hemos escrito
+     * @param dos 
+     */
     public static void CerrarFicheroBinario(DataOutputStream dos) {
         try {
             dos.close();
@@ -361,8 +357,13 @@ public class Loteria_Nadal {
             Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public static boleto LeerDatosClienteBinario(DataInputStream dis) {
+    
+    /**
+     * funcio que leer? tanto el numero del boleto como el premio que tiene 
+     * @param dis
+     * @return 
+     */
+    public static boleto LeerNumerosSorteo(DataInputStream dis) {
         boleto blt = new boleto();
 
         try {
@@ -374,7 +375,11 @@ public class Loteria_Nadal {
         }
         return blt;
     }
-
+    
+    /**
+     * funcion que usaremos para comprobar que premio tiene el numero introducido
+     * por el usuario
+     */
     public static void ComprobarNumeroBinario() {
         try {
             String nombre = "Sorteig" + any + ".bin";
@@ -384,7 +389,7 @@ public class Loteria_Nadal {
             numLinea = DIECIOCHO;
             boletoIntroducido.numero = Entero(LeerLineaIdioma());
             boolean trobat = false;
-            boleto blt = LeerDatosClienteBinario(dis);
+            boleto blt = LeerNumerosSorteo(dis);
             while (trobat != true) {
 
                 if (blt.numero == boletoIntroducido.numero) {
@@ -393,7 +398,7 @@ public class Loteria_Nadal {
                     System.out.println(blt.premio + " ?");
                     trobat = true;
                 } else {
-                    blt = LeerDatosClienteBinario(dis);
+                    blt = LeerNumerosSorteo(dis);
                 }
             }
             CerrarFicheroBinarioInput(dis);
@@ -401,7 +406,13 @@ public class Loteria_Nadal {
             Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /**
+     * funcion que nos sirve para crear un DataInput para leer un archivo binario
+     * @param nomFichero
+     * @param crear
+     * @return 
+     */
     public static DataInputStream AbrirFicheroLecturaBinario(String nomFichero, boolean crear) {
         DataInputStream dis = null;
         File f = AbrirFichero(nomFichero, crear);
@@ -421,33 +432,15 @@ public class Loteria_Nadal {
         return dis;
     }
 
+    
     /**
-     * funcio per introduir quin es el teu numero de decim
-     *
-     * @param boletoIntroducido
+     * funcion que, en caso de no existir el sorteo del a?o seleccionado, crear?
+     * un nuevo archivo y simular? el sorteo. Si ya existe simplemente lo 
+     * abrir?
+     * @param nomFichero
+     * @param crear
+     * @return 
      */
-    public static void IntroduirNum(boleto boletoIntroducido) {
-        String resposta = "n";
-
-        try {
-            do {
-                numLinea = DIECIOCHO;
-                LeerLineaIdioma();
-                ComprobarTam(boletoIntroducido);
-                boletoIntroducido.premio = buscarPremio(boletoIntroducido);
-
-                numLinea = DIECIOCHO + 1;
-                LeerLineaIdioma();
-                numLinea = (DIECIOCHO + 1) + DIEZ;
-                LeerLineaIdioma();
-                resposta = scan.nextLine().toLowerCase();
-            } while (resposta.equals("s"));
-        } catch (IOException ex) {
-            Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
     public static File AbrirFichero(String nomFichero, boolean crear) {
         File result = null;
 
@@ -470,7 +463,13 @@ public class Loteria_Nadal {
 
         return result;
     }
-
+    
+    /**
+     * funcion con la que grabaremos cada boleto que se genere en la simulacion
+     * @param numeros
+     * @param i
+     * @param any 
+     */
     public static void GrabarBoleto(boleto[] numeros, int i, String any) {
         DataOutputStream dos = AbrirFicheroEscrituraBinario("Sorteig" + any + ".bin", true, true);
 
@@ -487,7 +486,11 @@ public class Loteria_Nadal {
         CerrarFicheroBinario(dos);
 
     }
-
+    
+    /**
+     * funcion que nos permite cerrar un fichero binario en el que hemos escrito
+     * @param dos 
+     */
     public static void CerrarFicheroBinarioOutput(DataOutputStream dos) {
         try {
             dos.flush();
@@ -496,7 +499,15 @@ public class Loteria_Nadal {
             Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /**
+     * funcion que abrir? el fichero y nos devolver? un DataOutputStream para
+     * poder escribir en un archivo
+     * @param nomFichero
+     * @param crear
+     * @param blnAnyadir
+     * @return 
+     */
     public static DataOutputStream AbrirFicheroEscrituraBinario(String nomFichero, boolean crear, boolean blnAnyadir) {
         DataOutputStream dos = null;
         File f = AbrirFichero(nomFichero, crear);
@@ -516,7 +527,7 @@ public class Loteria_Nadal {
         return dos;
     }
 
-    //A?air parametros amigos
+    //A?adir parametros amigos
     public static class Amigo {
 
         String nombre;
@@ -531,7 +542,9 @@ public class Loteria_Nadal {
             this.importe = importe;
         }
     }
-
+    /**
+     * variables globales para las collas
+     */
     static String nombre;
     static int anySorteig;
     static int numLoteria;
@@ -546,12 +559,15 @@ public class Loteria_Nadal {
         importeTotal = 0;
     }
 
-    // M?todo para a?adir un amigo a la colla
+    // Metodo para a?adir un amigo a la colla
     public static void addAmigo(String nombre, int anySorteig, int numLoteria, double importe) {
         amigos.add(new Amigo(nombre, anySorteig, numLoteria, importe));
         importeTotal += importe;
     }
-
+    /**
+     * Esta funcion nos sirve para gestionar las diferentes opciones
+     */
+    
     public static void opcionesMenu() {
         switch (opcion) {
             case 1:
@@ -567,7 +583,12 @@ public class Loteria_Nadal {
                 break;
         }
     }
-
+    /**
+     * funcion para abrir el buffered reader y poder leer un archivo de texto
+     * @param nomFichero
+     * @param crear
+     * @return 
+     */
     public static BufferedReader AbrirFicheroLectura(String nomFichero, boolean crear) {
         BufferedReader br = null;
         File f = AbrirFichero(nomFichero, crear);
@@ -586,7 +607,11 @@ public class Loteria_Nadal {
 
         return br;
     }
-
+    
+    /**
+     * funcion para cerrar el buffered reader
+     * @param br 
+     */
     public static void CerrarFichero(BufferedReader br) {
         try {
             br.close();
@@ -594,7 +619,10 @@ public class Loteria_Nadal {
             Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /**
+     * funcion con diferentes lectores para los diferentes idiomas
+     */
     public static void LeerFichero() {
 
         // Creamos el enlace con el fichero en el disco
@@ -678,8 +706,8 @@ public class Loteria_Nadal {
 
     }
 
-    // M?todo para comprobar los premios de la colla
-    // M?todo para crear una colla a partir de los datos introducidos por el usuario
+    // Metodo para comprobar los premios de la colla
+    // Metodo para crear una colla a partir de los datos introducidos por el usuario
     public static void opcionGrupo() {
         numLinea = VEINTE;
 
