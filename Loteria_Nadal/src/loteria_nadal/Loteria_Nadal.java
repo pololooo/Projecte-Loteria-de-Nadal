@@ -21,7 +21,7 @@ public class Loteria_Nadal {
 
     static Scanner scan = new Scanner(System.in);
 
-    /*Aqu? declarem unes constants globals, on guardem els premis i la quantitat
+    /*Aqui declarem unes constants globals, on guardem els premis i la quantitat
     de numeros que juguen (del 0 fins al 99.999)
      */
     static final int NUMPREMIOS = 100000;
@@ -677,7 +677,7 @@ public class Loteria_Nadal {
                 //Imprimeix les opcions d'idiomes
                 LeerLineaIdioma();
                 numLinea++;
-            } while (numLinea < 11);
+            } while (numLinea < DIEZ-1);
             opcionIdioma = scan.nextInt();
         } catch (IOException ex) {
             Logger.getLogger(Loteria_Nadal.class.getName()).log(Level.SEVERE, null, ex);
